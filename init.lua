@@ -139,10 +139,14 @@ minetest.register_node("forceload:anchor",{
 	end
 })
 
-minetest.register_chatcommand("a", {func = function(name)
-	flm:verify()
-	flm:clean()
-end})
+minetest.register_craft({
+	output = "forceload:anchor",
+	recipe = {
+		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"},
+		{"default:mese_crystal", "wool:blue", "default:mese_crystal"},
+		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"}
+	}
+})
 
 local elapsed_time = 0
 local count = 0
