@@ -39,20 +39,12 @@ function ForceloadManager(filetoopen, hide_file_errors)
 		unload = function(self, pos)
 			for i = 1, #self._blocks do
 				if vector.equals(pos, self._blocks[i]) then					
-					minetest.forceload_block(pos)
+					minetest.forceload_free_block(pos)
 					table.remove(self._blocks, i)
 					return true
 				end
 			end
 			return false
-		end,
-		iter = function(self, func)
-			for i = 1, #self._blocks do
-				if func(i, self._blocks[i]) == true then
-					table.remove(self._blocks, i)
-					i = i - 1
-				end
-			end
 		end,
 		save = function(self, filename)
 			local file = io.open(filename, "w")
@@ -104,6 +96,7 @@ function ForceloadManager(filetoopen, hide_file_errors)
 			local i = 1
 			while i <= #self._blocks do
 				if self._blocks[i].remove then
+					minetest.forceload_free_block(self._blocks[i])
 					table.remove(self._blocks, i)
 				else
 					i = i + 1
