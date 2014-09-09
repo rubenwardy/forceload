@@ -6,4 +6,4 @@ Use the forceload:anchor block.
 
 Created by rubenwardy
 
-License: LGPL 3.0 or later
+License: LGPL 2.1 or later
