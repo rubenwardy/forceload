@@ -1,9 +1,8 @@
-local _pts = minetest.pos_to_string
-function minetest.pos_to_string(pos)
+local function pos_to_string_no_err(pos)
 	if not pos then
 		return "(-,-,-)"
 	end
-	return _pts(pos)
+	return minetest.pos_to_string(pos)
 end
 
 -- Makes sure that force load areas are handled correctly
@@ -23,7 +22,7 @@ function ForceloadManager(filetoopen, hide_file_errors)
 	end
 	for i = 1, #blocks do
 		if not minetest.forceload_block(blocks[i]) then			
-			minetest.log("error", "Failed to load block " .. minetest.pos_to_string(blocks[i]))
+			minetest.log("error", "Failed to load block " .. pos_to_string_no_err(blocks[i]))
 		end
 	end
 	return {
@@ -33,7 +32,7 @@ function ForceloadManager(filetoopen, hide_file_errors)
 				table.insert(self._blocks, vector.new(pos))
 				return true
 			end
-			minetest.log("error", "Failed to load block " .. minetest.pos_to_string(pos))
+			minetest.log("error", "Failed to load block " .. pos_to_string_no_err(pos))
 			return false
 		end,
 		unload = function(self, pos)
@@ -64,7 +63,7 @@ function ForceloadManager(filetoopen, hide_file_errors)
 					if not pos.last or elapsed_time > pos.last + 15 then
 						pos.last = elapsed_time
 						if not minetest.forceload_block(pos) then							
-							minetest.log("error", "Failed to force load " .. minetest.pos_to_string(pos))
+							minetest.log("error", "Failed to force load " .. pos_to_string_no_err(pos))
 							pos.remove = true
 						end
 					end
@@ -73,7 +72,7 @@ function ForceloadManager(filetoopen, hide_file_errors)
 					pos.last = elapsed_time
 					return true
 				else	
-					minetest.log("error", minetest.pos_to_string(pos) .. " shouldn't be loaded")
+					minetest.log("error", pos_to_string_no_err(pos) .. " shouldn't be loaded")
 					pos.remove = true
 					return false		
 				end
